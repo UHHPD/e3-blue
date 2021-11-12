@@ -53,10 +53,25 @@ int main() {
     // scanning log likelihood
     ofstream fnll("nll.txt");
     ofstream f_delta("deltanll.txt");
+    std::vector<double> nll_values;
     for(mu = start; mu <= end; mu += step) {
         fnll << mu << " " << nll(daten, mu) << endl;
-        f_delta << mu << " " << nll(daten, mu) + 2*log(3.11538) << endl;
+        nll_values.push_back(nll(daten, mu));
+        f_delta << mu << " " << nll(daten, mu) - nll(daten, 3.11538) << endl;
     }
     fnll.close();
     f_delta.close();
+
+    // determine best mu
+    ifstream nll_in("nll.txt");
+    double nll_i;
+    double min = 100000;
+    int min_ind = 0;
+    for(int n = 0; n <= (end-start)/step; n++){
+        if(nll_values[n] < min) {
+            min = nll_values[n];
+            min_ind = n;
+        }
+    }
+    std::cout << "best guess for mu: " << start + min_ind * step << std::endl;
 }
