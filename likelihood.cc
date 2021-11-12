@@ -43,7 +43,7 @@ int main() {
     // scanning likelihood
     int start = 0;
     int end = 6;
-    double step = 0.1;
+    double step = 0.01;
     ofstream fout("likelihood.txt");
     for(mu = start; mu <= end; mu += step) {
         fout << mu << " " << prob(daten, mu) << endl;
@@ -52,10 +52,11 @@ int main() {
     
     // scanning log likelihood
     ofstream fnll("nll.txt");
+    ofstream f_delta("deltanll.txt");
     for(mu = start; mu <= end; mu += step) {
         fnll << mu << " " << nll(daten, mu) << endl;
-        //fnll << mu << " " << -log(prob(daten, mu)) << endl;
+        f_delta << mu << " " << nll(daten, mu) + 2*log(3.11538) << endl;
     }
     fnll.close();
-
+    f_delta.close();
 }
