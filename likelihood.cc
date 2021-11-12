@@ -16,6 +16,14 @@ double prob(std::vector<int> daten, double mu) {
     return L;
 }
 
+double self_prob(std::vector<int> daten) {
+    double L =1;
+    for(int k: daten) {
+        L *= poisson(k, k);
+    }
+    return L;
+}
+
 double nll(std::vector<int> daten, double mu) {
     double L = 0;
     for(int k : daten) {
@@ -74,4 +82,13 @@ int main() {
         }
     }
     std::cout << "best guess for mu: " << start + min_ind * step << std::endl;
+
+    // likelihood ratio
+    double Lambda = prob(daten, 3.11538) / self_prob(daten);
+    double logLambda = -2*log(Lambda);
+    std::cout << "likelihood ratio: " << logLambda << std::endl; 
+
+    // deviation of likelihood ratio:
+    double z = (logLambda - 233)/sqrt(2*233);
+    std::cout << "deviation of likelihood ratio: " << z << std::endl;
 }
