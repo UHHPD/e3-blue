@@ -19,7 +19,7 @@ double prob(std::vector<int> daten, double mu) {
 double nll(std::vector<int> daten, double mu) {
     double L = 0;
     for(int k : daten) {
-        L -= log(poisson(mu, k));
+        L -= 2*log(poisson(mu, k));
     }
     return L;
 }
@@ -53,8 +53,8 @@ int main() {
     // scanning log likelihood
     ofstream fnll("nll.txt");
     for(mu = start; mu <= end; mu += step) {
-        //fnll << mu << " " << nll(daten, mu) << endl;
-        fnll << mu << " " << -log(prob(daten, mu)) << endl;
+        fnll << mu << " " << nll(daten, mu) << endl;
+        //fnll << mu << " " << -log(prob(daten, mu)) << endl;
     }
     fnll.close();
 
