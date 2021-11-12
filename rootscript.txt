@@ -1,0 +1,23 @@
+void rootscript()
+{
+
+	TH1D *hist = new TH1D("hist",";N",11,0,10);
+	fstream file;
+	file.open("hist.txt", ios::in);
+	double value;
+	
+	while(1)
+	{
+		file >> value;
+		hist->Fill(value);
+		if(file.eof()) break;
+	}
+	
+	hist -> GetXaxis()->SetTitle("X axis");
+	hist -> GetYaxis()->SetTitle("Y axis");
+	TCanvas *c1 = new TCanvas();
+	hist->Draw();
+	//TTree t;
+	//t.ReadFile("hist.txt","N/I:counts/I");
+	//t.Draw("N>>hist","counts","HIST");
+}	
